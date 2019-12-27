@@ -13,14 +13,16 @@ This file contains the content for Course Project 1 for Reproducible Research Co
 ## Loading and preprocessing the data
 The file available in the folder is a zip file. So, first we need to unzip it and then import the data into R. This can be done as follows - 
 
-```{r}
+
+```r
 unzip("activity.zip")
 # Reading the data 
 d <- read.csv("activity.csv")
 ```
 
 Then, for processing the dates as "Date" variable, it needs to be transformed into date format which is done as follows - 
-```{r}
+
+```r
 # processing data
 d$date <- as.Date(d$date)
 ```
@@ -31,23 +33,39 @@ Here three questions are pertinent. We solve them one-by-one.
 
 ### 1. Calculate the total number of steps taken per day
 
-```{r}
+
+```r
 datesum <- tapply(d$steps, d$date, sum)
 ```
 
 ### 2.  Make a histogram of the total number of steps taken each day
 
-```{r}
+
+```r
 hist(datesum, breaks = 8, xlab = "steps count", main = "Steps taken per day")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
 ### 3. Calculate and report the mean and median of the total number of steps taken per day
 
-```{r, echo = TRUE}
+
+```r
 stepmean <- mean(datesum, na.rm = TRUE)
 stepmedian <- median(datesum, na.rm = TRUE)
 stepmean
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 stepmedian
+```
+
+```
+## [1] 10765
 ```
 
 
@@ -62,7 +80,8 @@ We want to create a time series plot for the step count in each interval.
 
 * Fourth, plotting the required figure
 
-```{r}
+
+```r
 intervalcount <- tapply(d$steps, d$interval, mean, na.rm = TRUE)
 intervals <- levels(as.factor(d$interval))
 q2 <- cbind(intervalcount, intervals)
@@ -75,13 +94,20 @@ g <- g + ggtitle("Step Count  vs  Time interval") +ylab("mean of steps' count")
 g
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
 ###Next, we need to find which interval contains the maximum number of steps.
 
-```{r}
+
+```r
 #Finding maximum
 maxindex <- which.max(q2$intervalcount)
 maxinterval <- q2$intervals[maxindex]
 maxinterval
+```
+
+```
+## [1] 272
 ```
 
 
@@ -89,7 +115,8 @@ maxinterval
 
 * NAs are replaced with the average values of that interval calculated earlier
 
-```{r}
+
+```r
 #Finding NAs
 naindex <- which(is.na(d$steps))
 
@@ -102,7 +129,11 @@ d2$steps[naindex] <- intervalcount[naindex]
 # Plotting new histogram
 datesum2 <- tapply(d2$steps, d2$date, sum)
 hist(datesum2, breaks = 8, xlab = "steps count", main = "Steps taken per day")
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
+```r
 #Finding new mean and median
 stepmean2 <- mean(datesum, na.rm = TRUE)
 stepmedian2 <- median(datesum, na.rm = TRUE)
@@ -110,11 +141,37 @@ stepmedian2 <- median(datesum, na.rm = TRUE)
 
 ### We need to find out the difference between the two
 
-```{r, echo = TRUE}
+
+```r
 print("Difference between means")
+```
+
+```
+## [1] "Difference between means"
+```
+
+```r
 stepmean - stepmean2
+```
+
+```
+## [1] 0
+```
+
+```r
 print("Difference between medians")
+```
+
+```
+## [1] "Difference between medians"
+```
+
+```r
 stepmedian - stepmedian2
+```
+
+```
+## [1] 0
 ```
 
 *Notably, these values do not differ. The mean and the median remain the same.*
@@ -129,13 +186,52 @@ stepmedian - stepmedian2
 * The new dataset is used in ggplot to plot the variation of steps on weekdays and weekends.
 
 
-```{r, results="hide"}
+
+```r
 library(lubridate)
+```
+
+```
+## 
+## Attaching package: 'lubridate'
+```
+
+```
+## The following object is masked from 'package:base':
+## 
+##     date
+```
+
+```r
 library(dplyr)
 ```
 
+```
+## 
+## Attaching package: 'dplyr'
+```
 
-```{r}
+```
+## The following objects are masked from 'package:lubridate':
+## 
+##     intersect, setdiff, union
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+
+
+```r
 d <- mutate(d, weekend = ((wday(date) == 1) | (wday(date) == 7)))
 d$weekend <- as.factor(d$weekend)
 levels(d$weekend) <- c("Weekday", "Weekend")
@@ -155,3 +251,5 @@ g2 <- ggplot(divided, aes(x = interval, y = steps))
 g2 <- g2 + geom_line(col = "blue") + facet_grid(day_type ~ .)
 g2
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
