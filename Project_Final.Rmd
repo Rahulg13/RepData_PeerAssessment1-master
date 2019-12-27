@@ -6,6 +6,8 @@ html_document:
     keep_md: true
 ---
 
+# Introduction 
+This file contains the content for Course Project 1 for Reproducible Research Course. The secondary heading were provided under the Project Template and the contents have been populated by the author. The depository was downloaded from the [github repository](https://github.com/rdpeng/RepData_PeerAssessment1). The downloaded folder was set as working directory and subsequent operations were performed within it.
 
 ## Loading and preprocessing the data
 The file available in the folder is a zip file. So, first we need to unzip it and then import the data into R. This can be done as follows - 
@@ -61,10 +63,8 @@ q2 <- as.data.frame(q2)
 q2$intervals <- as.numeric(q2$intervals)
 q2$intervalcount <- as.numeric(as.character(q2$intervalcount))
 library(ggplot2)
-#g <- ggplot(q2, aes(y = intervalcount, x = intervals)) + geom_point()
-#g <- g + geom_smooth()
 g <- ggplot(q2, aes(y = intervalcount, x = intervals)) + geom_line()
-g <- g + ggtitle("Step Count  vs  Time interval")
+g <- g + ggtitle("Step Count  vs  Time interval") +ylab("mean of steps' count")
 g
 ```
 
@@ -133,8 +133,8 @@ intervaltype <- c(intervals, intervals)
 divided <- cbind(divided, daytype, intervaltype)
 divided <- as.data.frame(divided)
 names(divided) <- c("steps", "day_type", "interval")
-divided$interval <- as.numeric(divided$interval)
-divided$steps <- as.numeric(divided$steps)
+divided$interval <- as.numeric(as.factor(divided$interval))
+divided$steps <- as.numeric(as.character(divided$steps))
 
 g2 <- ggplot(divided, aes(x = interval, y = steps))
 g2 <- g2 + geom_line(col = "blue") + facet_grid(day_type ~ .)
