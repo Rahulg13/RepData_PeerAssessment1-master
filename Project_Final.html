@@ -371,6 +371,7 @@ summary {
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>This file contains the content for Course Project 1 for Reproducible Research Course. The secondary heading were provided under the Project Template and the contents have been populated by the author. The depository was downloaded from the <a href="https://github.com/rdpeng/RepData_PeerAssessment1">github repository</a>. The downloaded folder was set as working directory and subsequent operations were performed within it.</p>
+<div style="page-break-after: always;"></div>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
 <p>The file available in the folder is a zip file. So, first we need to unzip it and then import the data into R. This can be done as follows -</p>
@@ -380,6 +381,7 @@ d &lt;- read.csv(&quot;activity.csv&quot;)</code></pre>
 <p>Then, for processing the dates as “Date” variable, it needs to be transformed into date format which is done as follows -</p>
 <pre class="r"><code># processing data
 d$date &lt;- as.Date(d$date)</code></pre>
+<div style="page-break-after: always;"></div>
 </div>
 <div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
 <h2>What is mean total number of steps taken per day?</h2>
@@ -401,11 +403,18 @@ stepmean</code></pre>
 <pre><code>## [1] 10766.19</code></pre>
 <pre class="r"><code>stepmedian</code></pre>
 <pre><code>## [1] 10765</code></pre>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 <div id="what-is-the-average-daily-activity-pattern" class="section level2">
 <h2>What is the average daily activity pattern?</h2>
-<p>We want to create a time series plot for the step count in each interval. * First, interval-wise average step count need to be calculated * Second, all the intervals need to be stored in a variable * Third, a data frame needs to be created by bringing above two together * Fourth, plotting the required figure</p>
+<p>We want to create a time series plot for the step count in each interval.</p>
+<ul>
+<li><p>First, interval-wise average step count need to be calculated</p></li>
+<li><p>Second, all the intervals need to be stored in a variable</p></li>
+<li><p>Third, a data frame needs to be created by bringing above two together</p></li>
+<li><p>Fourth, plotting the required figure</p></li>
+</ul>
 <pre class="r"><code>intervalcount &lt;- tapply(d$steps, d$interval, mean, na.rm = TRUE)
 intervals &lt;- levels(as.factor(d$interval))
 q2 &lt;- cbind(intervalcount, intervals)
@@ -423,6 +432,7 @@ maxindex &lt;- which.max(q2$intervalcount)
 maxinterval &lt;- q2$intervals[maxindex]
 maxinterval</code></pre>
 <pre><code>## [1] 272</code></pre>
+<div style="page-break-after: always;"></div>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
@@ -456,10 +466,16 @@ stepmedian2 &lt;- median(datesum, na.rm = TRUE)</code></pre>
 <pre class="r"><code>stepmedian - stepmedian2</code></pre>
 <pre><code>## [1] 0</code></pre>
 <p><em>Notably, these values do not differ. The mean and the median remain the same.</em></p>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
+<ul>
+<li><p>The weekends are found using lubridate package wday() function.</p></li>
+<li><p>Based on the new weekend column, mutated into the dataframe, we apply the mean function.</p></li>
+<li><p>The new dataset is used in ggplot to plot the variation of steps on weekdays and weekends.</p></li>
+</ul>
 <pre class="r"><code>library(lubridate)</code></pre>
 <pre><code>## 
 ## Attaching package: 'lubridate'</code></pre>
@@ -478,11 +494,6 @@ stepmedian2 &lt;- median(datesum, na.rm = TRUE)</code></pre>
 <pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<ul>
-<li>The weekends are found using lubridate package wday() function.</li>
-<li>Based on the new weekend column, mutated into the dataframe, we apply the mean function.</li>
-<li>The new dataset is used in ggplot to plot the variation of steps on weekdays and weekends.</li>
-</ul>
 <pre class="r"><code>d &lt;- mutate(d, weekend = ((wday(date) == 1) | (wday(date) == 7)))
 d$weekend &lt;- as.factor(d$weekend)
 levels(d$weekend) &lt;- c(&quot;Weekday&quot;, &quot;Weekend&quot;)
