@@ -7,11 +7,11 @@ output:
 
 
 # Introduction 
-This file contains the content for Course Project 1 for Reproducible Research Course. The secondary heading were provided under the Project Template and the contents have been populated by the author. The depository was downloaded from the [github repository](https://github.com/rdpeng/RepData_PeerAssessment1). The downloaded folder was set as working directory and subsequent operations were performed within it.
+This file contains the content for Course Project 1 for Reproducible Research Course. The secondary heading were provided under the Project Template and the contents have been populated by the author. The depository was downloaded from the [github repository](https://github.com/rdpeng/RepData_PeerAssessment1). The downloaded folder was set as working directory and subsequent operations were performed within it. 
 
 
 ## Loading and preprocessing the data
-The file available in the folder is a zip file. So, first we need to unzip it and then import the data into R. This can be done as follows - 
+The file available in the folder is a zip file. So, first we need to unzip it and then import the data into R. This can be done as following -  
 
 
 ```r
@@ -96,7 +96,7 @@ g
 
 ![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
-###Next, we need to find which interval contains the maximum number of steps.
+### Next, we need to find which interval contains the maximum number of steps.
 
 
 ```r
