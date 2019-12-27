@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1577466956003.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "5A6B0329",
+    "lastKnownWriteTime" : 1577474754,
+    "last_content_update" : 1577474754025,
+    "path" : "~/Documents/R/datasciencecoursera/RepData_PeerAssessment1-master/Project_code.R",
+    "project_path" : "Project_code.R",
+    "properties" : {
+        "cursorPosition" : "65,2",
+        "scrollLine" : "45",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,24 @@
+# reading the data
+nei <- readRDS("./exdata-data-NEI_data/summarySCC_PM25.rds")
+scc <- readRDS("./exdata-data-NEI_data/Source_Classification_Code.rds")
+
+nei <- nei %>% mutate(poll2 = Emissions/100000)
+
+#Plot 6
+png(file = "Plot6.png")
+vehicles <- grep("[Vv]ehicles", scc$EI.Sector)
+vehi_list <- scc$SCC[vehicles]
+nei5 <- subset(nei, SCC %in% vehi_list & (fips == "24510" | fips == "06037"))
+nei5$poll2 <- nei5$poll2 * 100
+s6 <- nei5 %>% group_by(year, fips) %>% summarise(total = sum(poll2))
+s6$fips <- as.factor(s6$fips)
+levels(s6$fips) <- c("Los Angeles", "Baltimore")
+s6$fips <- as.character(s6$fips)
+s6$year <- as.factor(s6$year)
+g <- ggplot(s6, aes(x = factor(fips), y = total, fill = year, , label = round(total, digits = 3)))
+g <- g + geom_bar( stat = "identity", position = "dodge", width = 0.5)
+g <- g + ggtitle("Emissions trends for Baltimore and Los Angeles")
+g <- g + xlab("Years") + ylab("Emissions in tons/10")
+g <- g + geom_text(size = 3, position = position_dodge(width = 0.5), aes(hjust = 0.5, vjust = -0.1), angle = 0)
+g
+dev.off()

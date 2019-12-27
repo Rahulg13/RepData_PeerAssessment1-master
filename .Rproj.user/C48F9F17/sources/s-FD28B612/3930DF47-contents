@@ -1,0 +1,24 @@
+# reading the data
+nei <- readRDS("./exdata-data-NEI_data/summarySCC_PM25.rds")
+scc <- readRDS("./exdata-data-NEI_data/Source_Classification_Code.rds")
+
+
+nei <- nei %>% mutate(poll2 = Emissions/100000)
+
+
+#Plot 4
+png(file = "Plot4.png")
+scc$EI.Sector <- as.character(scc$EI.Sector)
+coals <- grep("[Cc]oal", scc$EI.Sector)
+scc$SCC <- as.character(scc$SCC)
+scc_list <- scc$SCC[coals]
+
+nei3 <- subset(nei, nei$SCC %in% scc_list)
+s4 <- nei3 %>% group_by(year) %>% summarise(total = sum(poll2))
+s4$year <- as.factor(s4$year)
+g <- ggplot(s4)
+g <- g + geom_bar(aes(x = factor(year), y = total), stat = "identity", position = "dodge", width = 0.5)
+g <- g + ggtitle("Trends for Coal combustion related emission sources")
+g <- g + xlab("Years") + ylab("Emissions in tons/100000")
+g
+dev.off()
